@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\ActiveForm;
+use dosamigos\datepicker\DatePicker;
 
 /** @var yii\web\View $this */
 /** @var common\models\education $model */
-/** @var yii\widgets\ActiveForm $form */
+/** @var yii\bootstrap5\ActiveForm $form */
 ?>
 
 <div class="education-form">
@@ -18,7 +19,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'Institution_Name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'Startdate')->textInput() ?>
+    <?= $form->field($model, 'Startdate')->widget(
+DatePicker::className(), [
+    'inline'=>false,
+    'clientOptions' => [
+             'autoclose' => true,
+            'format' => 'yyyy-m-d'
+    ]
+    ]); ?>
+
+
 
     <?= $form->field($model, 'End_date')->textInput() ?>
 

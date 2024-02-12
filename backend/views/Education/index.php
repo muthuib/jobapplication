@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use dosamigos\datepicker\DatePicker;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -30,7 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'Specialization',
             'Degree_Name',
             'Institution_Name',
-            'Startdate',
+            [
+                'attribute'=>'startdate',
+                'value'=>'startdate',
+                'format'=>'raw',
+                'filter'=>DatePicker::widget([
+                    'model' => $searchmodel,
+                    'attribute' => 'startdate',
+                        'clientOptions' => [
+                            'autoclose' => true,
+                            'format' => 'yyyy-m-d'
+                        ]
+                        ]),
+                    ],
+           
             //'End_date',
             //'created_at',
             //'Institution_Nationality',

@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $degree_name
  * @property string $institution_name
- * @property resource $testimonial
+ * @property resource $testmonial
  */
 class Testmonial extends \yii\db\ActiveRecord
 {
@@ -28,8 +28,8 @@ class Testmonial extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['degree_name', 'institution_name', 'testimonial'], 'required'],
-            [['testimonial'], 'string'],
+            [['degree_name', 'institution_name'], 'required'],
+            [['testmonial'], 'file', 'extensions'=>'jpeg,jpg,png,gif'],
             [['degree_name', 'institution_name'], 'string', 'max' => 255],
         ];
     }
@@ -43,7 +43,7 @@ class Testmonial extends \yii\db\ActiveRecord
             'id' => 'ID',
             'degree_name' => 'Degree Name',
             'institution_name' => 'Institution Name',
-            'testimonial' => 'Testimonial',
+            'testmonial' => 'Upload Testmonial',
         ];
     }
 }

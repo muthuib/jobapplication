@@ -1,15 +1,15 @@
 <?php
 
 namespace backend\controllers;
-
-use common\models\Testmonial;
+use yii;
+use common\models\testmonial;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
- * TestmonialController implements the CRUD actions for Testmonial model.
+ * TestmonialController implements the CRUD actions for testmonial model.
  */
 class TestmonialController extends Controller
 {
@@ -32,14 +32,14 @@ class TestmonialController extends Controller
     }
 
     /**
-     * Lists all Testmonial models.
+     * Lists all testmonial models.
      *
      * @return string
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Testmonial::find(),
+            'query' => testmonial::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -58,7 +58,7 @@ class TestmonialController extends Controller
     }
 
     /**
-     * Displays a single Testmonial model.
+     * Displays a single testmonial model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -71,29 +71,34 @@ class TestmonialController extends Controller
     }
 
     /**
-     * Creates a new Testmonial model.
+     * Creates a new testmonial model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Testmonial();
+        $model = new testmonial();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if($model->load(Yii::$app->request->post())) {
+            $model->testimonial = UploadedFile::getInstance($model, 'testmonial');
+            $image_name = $model->title.rand(1, 4000) .'.'.$model->testmonial->extension;
+            $image_path = 'uploads/academic/' .$image_name;
+            $model->testmonial->saveAs($image_path);
+            $model->testmonial = $image_path;
+         
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
+         else {
+    
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+}
 
     /**
-     * Updates an existing Testmonial model.
+     * Updates an existing testmonial model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -113,7 +118,7 @@ class TestmonialController extends Controller
     }
 
     /**
-     * Deletes an existing Testmonial model.
+     * Deletes an existing testmonial model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -127,15 +132,15 @@ class TestmonialController extends Controller
     }
 
     /**
-     * Finds the Testmonial model based on its primary key value.
+     * Finds the testmonial model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Testmonial the loaded model
+     * @return testmonial the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Testmonial::findOne(['id' => $id])) !== null) {
+        if (($model = testmonial::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
